@@ -13,10 +13,6 @@ import java.io._
 
 case class converter(database: Database) {
 
-//  private def escapeIdentifier(identifier: String): String = {
-//    "'" + identifier.replace("'", "''") + "'";
-//  }
-
   private def jsonTable(table: Table): JsValue = {
 
     val columns = table.getColumns();
@@ -25,15 +21,12 @@ case class converter(database: Database) {
       row =>
         columns.map(
           column => {
-            val value = column.getType match {
+           column.getType match {
               //              case DataType.MONEY => Map(column.getName -> row.getString(column.getName))
               case DataType.BOOLEAN => Map(column.getName -> (if (row.getBoolean(column.getName)) "1" else "0"))
               case _ => Map(column.getName -> row.get(column.getName).toString())
-            }
-            value
+            }           
           })) reduce (_ ++ _)
-
-    //    println(toJson(tableMap))
 
     toJson(Map(table.getName -> tableMap))
   }
@@ -55,16 +48,12 @@ object MdbToJson {
     if (args.length < 2) {
       println(usage)
     } else {
-      //    val exporter: AccessExporter = new AccessExporter(DatabaseBuilder.open(new File("/Users/saverio/Documents/medicalOffice/import.mdb")));
 
 //      val database = DatabaseBuilder.open(new File("/Users/saverio/Documents/medicalOffice/import.mdb"))
 
       val database = DatabaseBuilder.open(new File(args(0)))
       
       val json = converter(database).convert
-
-      //    println("Hello, world!")
-//      println(json)
 
       val pw = new PrintWriter(new File(args(1)))
       pw.write(json.toString())
