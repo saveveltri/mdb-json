@@ -16,16 +16,15 @@ case class converter(database: Database) {
 
     val columns = table.getColumns();
 
-    val tableMap = table.flatMap(
+    val tableMap = table.map(
       row =>
         columns.map(
           column => {
-           column.getType match {
-              //              case DataType.MONEY => Map(column.getName -> row.getString(column.getName))
+            column.getType match {
               case DataType.BOOLEAN => Map(column.getName -> (if (row.getBoolean(column.getName)) "1" else "0"))
               case _ => Map(column.getName -> row.get(column.getName).toString())
-            }           
-          })) reduce (_ ++ _)
+            }
+          }).reduce(_ ++ _))
 
     toJson(Map(table.getName -> tableMap))
   }
