@@ -2,7 +2,6 @@ package com.saverioveltri
 
 import scala.collection.JavaConversions._
 import com.healthmarketscience.jackcess.Database
-//import com.plausiblelabs.mdb.AccessExporter
 import java.io.{ File, PrintWriter }
 import com.healthmarketscience.jackcess.DatabaseBuilder
 import com.healthmarketscience.jackcess.Table
