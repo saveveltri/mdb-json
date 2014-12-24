@@ -47,16 +47,14 @@ object MdbToJson {
       println(usage)
     } else {
 
-//      val database = DatabaseBuilder.open(new File("/Users/saverio/Documents/medicalOffice/import.mdb"))
-
       val database = DatabaseBuilder.open(new File(args(0)))
-      
+
       val json = converter(database).convert
 
       val pw = new PrintWriter(new File(args(1)))
       pw.write(json.toString())
       pw.close
-      
+
       println("successfully created " + args(1))
     }
   }
